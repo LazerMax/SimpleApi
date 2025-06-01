@@ -1,0 +1,9 @@
+C:\Users\felsh\Desktop\Лабы админка\SimpleApi\SimpleApi\publish\SimpleApi.exe
+C:\Users\felsh\Desktop\Лабы админка\SimpleApi\SimpleApi\publish\appsettings.Development.json
+C:\Users\felsh\Desktop\Лабы админка\SimpleApi\SimpleApi\publish\appsettings.json
+C:\Users\felsh\Desktop\Лабы админка\SimpleApi\SimpleApi\publish\SimpleApi.dll
+C:\Users\felsh\Desktop\Лабы админка\SimpleApi\SimpleApi\publish\SimpleApi.deps.json
+C:\Users\felsh\Desktop\Лабы админка\SimpleApi\SimpleApi\publish\SimpleApi.runtimeconfig.json
+C:\Users\felsh\Desktop\Лабы админка\SimpleApi\SimpleApi\publish\SimpleApi.pdb
+C:\Users\felsh\Desktop\Лабы админка\SimpleApi\SimpleApi\publish\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\felsh\Desktop\Лабы админка\SimpleApi\SimpleApi\publish\Microsoft.OpenApi.dll
