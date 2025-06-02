@@ -1,0 +1,121 @@
+Установите .NET 6:
+
+bash
+wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt update
+sudo apt install -y dotnet-sdk-6.0
+Клонируйте проект:
+
+bash
+mkdir -p /home/$USER/app
+cd /home/$USER/app
+git clone https://github.com/ваш-логин/SimpleApi.git
+Публикация проекта:
+
+bash
+cd SimpleApi
+dotnet publish -c Release -o /var/www/app
+sudo chmod 755 /var/www/app
+4. Настройка systemd
+Создайте файл /etc/systemd/system/simpleapi.service:
+
+ini
+[Unit]
+Description=Simple API Service
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/app
+ExecStart=/usr/bin/dotnet /var/www/app/SimpleApi.dll --urls "http://*:5000"
+Restart=always
+User=www-data
+
+[Install]
+WantedBy=multi-user.target
+Запустите службу:
+
+bash
+sudo systemctl enable simpleapi
+sudo systemctl start simpleapi
+5. Настройка Nginx
+Установите Nginx:
+
+bash
+sudo apt install -y nginx
+Создайте конфиг /etc/nginx/sites-available/simpleapi:
+
+nginx
+server {
+    listen 80;
+    server_name _;
+
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_set_header Host $host;
+    }
+}
+Активируйте и перезапустите:
+
+bash
+sudo ln -s /etc/nginx/sites-available/simpleapi /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+6. Проверка работы
+На сервере:
+
+bash
+curl http://localhost/api/healthcheck
+С Windows (в той же сети):
+
+powershell
+curl http://IP_СЕРВЕРА/api/healthcheck
+7. История команд (для отчёта)
+bash
+history | grep -E "dotnet|nginx|systemctl|ufw|git"
+
+Вывод команд:
+user@LMA:~/app/SimpleApi$ history | grep -E "dotnet|nginx|systemctl|ufw|git"
+  114  dotnet nuget locals all --clear
+  116  dotnet restore
+  118  sudo systemctl enable simpleapi
+  119  sudo systemctl start simpleapi
+  120  sudo systemctl status simpleapi
+  127  dotnet publish -c Release -o /var/www/app --runtime linux-x64
+  131  dotnet clean
+  133  dotnet publish -c Release -o /var/www/app --runtime linux-x64
+  136  sudo systemctl daemon-reload
+  137  sudo systemctl restart simpleapi
+  138  sudo systemctl status simpleapi
+  139  sudo apt install -y nginx
+  140  sudo systemctl stop unattended-upgrades
+  143  sudo apt install -y nginx
+  144  sudo nano /etc/nginx/sites-available/simpleapi
+  145  sudo ln -s /etc/nginx/sites-available/simpleapi /etc/nginx/sites-enabled/
+  146  sudo nginx -t
+  147  sudo systemctl restart nginx
+  152  sudo nano /etc/nginx/sites-available/simpleapi
+  154  sudo systemctl status nginx
+  156  sudo nano /etc/nginx/sites-available/simpleapi
+  157  sudo ln -s /etc/nginx/sites-available/simpleapi /etc/nginx/sites-enabled/
+  158  sudo nginx -t
+  159  sudo systemctl restart nginx
+  160  sudo systemctl status nginx
+  162  sudo nginx -t
+  163  cat /etc/nginx/sites-enabled/simpleapi
+  164  sudo nano /etc/nginx/sites-available/simpleapi
+  165  sudo nginx -t
+  166  sudo systemctl restart nginx
+  169  sudo nginx -T | grep server
+  170  ls -la /etc/nginx/sites-enabled/
+  171  sudo rm /etc/nginx/sites-enabled/default
+  172  sudo rm /etc/nginx/sites-enabled/simpleapi
+  173  sudo rm /etc/nginx/sites-enabled/default
+  174  sudo rm /etc/nginx/sites-enabled/simpleapi
+  175  sudo nano /etc/nginx/sites-available/api
+  176  sudo ln -s /etc/nginx/sites-available/api /etc/nginx/sites-enabled/
+  177  sudo nginx -t && sudo systemctl restart nginx
+  195  sudo ufw status
+  196  sudo ufw allow 80/tcp
+  197  sudo ufw allow 5000/tcp
+  198  history | grep -E "dotnet|nginx|systemctl|ufw|git"
