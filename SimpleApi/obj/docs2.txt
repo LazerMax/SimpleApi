@@ -1,0 +1,331 @@
+1  pwd
+    2  ls
+    3  ls -al
+    4  ls -a
+    5  ls -al /
+    6  cd /etc
+    7  pwd
+    8  ls -l
+    9  pwd
+   10  cat os-release
+   11  uname -a
+   12  hostname
+   13  sudo hostnamectl set-hostname LazarevMA.rut.lab
+   14  cat /etc/hostname
+   15  date
+   16  cal -3
+   17  sudo apt install
+   18  sudo apt install ncal
+   19  cal -3
+   20  uptime
+   21  history
+   22  exit
+   23  cat .bash_history
+   24  sudo shutdown -P now
+   25  pwd
+   26  ls
+   27  ls -l
+   28  ls -al
+   29  ls -a
+   30  ls -al /
+   31  pwd
+   32  ls
+   33  ls -al
+   34  cd /etc/
+   35  pwd
+   36  cat os-release
+   37  uname -a
+   38  hostname
+   39  sudo hostnamectl set-hostname LMA.rut.lab
+   40  cat /etc/hostname
+   41  date
+   42  cal -3
+   43  uptime
+   44  history
+   45  exit
+   46  cd /home/user/
+   47  mkdir new-dir
+   48  touch new-file
+   49  ls -ald
+   50  sudo mkdir new-dir-root
+   51  ls -ald
+   52  sudo su
+   53  sudo chown -R user:user new-dir-root/
+   54  cd new-dir-root/
+   55  ls -ald
+   56  exit
+   57  networkctl list
+   58  networkctl status
+   59  networkctl list
+   60  networkctl status
+   61  networkctl status enp0s3
+   62  networkctl list
+   63  networkctl status enp0s3
+   64  networkctl list
+   65  networkctl status
+   66  networkctl status enp0s3
+   67  sudo nano /etc/netplan/50-cloud-init.yaml
+   68  networkctl list
+   69  ip a
+   70  networkctl list
+   71  ping 8.8.8.8
+   72  networkctl list
+   73  ip a
+   74  sudo netplan apply
+   75  ip a
+   76  sudo nano /etc/netplan/50-cloud-init.yaml
+   77  ip a
+   78  sudo nano /etc/netplan/50-cloud-init.yaml
+   79  sudo netplan apply
+   80  sudo nano /etc/netplan/50-cloud-init.yaml
+   81  sudo netplan apply
+   82  ip a
+   83  sudo netplan apply
+   84  sudo nano /etc/netplan/50-cloud-init.yaml
+   85  sudo netplan apply
+   86  ip a
+   87  ping 8.8.8.8
+   88  sudo
+   89  sudo nano /etc/netplan/50-cloud-init.yaml
+   90  sudo netplan apply
+   91  ip a
+   92  ping 8.8.8.8
+   93  sudo netplan apply
+   94  networkctl status enp0s3
+   95  sudo apt update
+   96  sudo apt install -y cowsay
+   97  cowsay -b Hello human!
+   98  sudo apt purge -y cowsay
+   99  sudo apt list --upgradable
+  100  sudo apt upgrade -y
+  101  ip a
+  102  ping 8.8.8.8
+  103  sudo apt install ssh
+  104  sudo apt update
+  105  sudo apt upgrade
+  106  sudo apt update
+  107  sudo apt install ssh
+  108  ip a
+  109  ip a
+  110  df -h
+  111  ping 8.8.8
+  112  ping 8.8.8.8
+  113  df -h
+  114  ping google.com
+  115  ping -4 google.com
+  116  curl -v https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -o /tmp/packages-microsoft-prod.deb
+  117  sudo curl -v https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -o /tmp/packages-microsoft-prod.deb
+  118  sudo dpkg -i /tmp/packages-microsoft-prod.deb
+  119  sudo apt update
+  120  sudo apt install -y dotnet-sdk-9.0
+  121  sudo apt install git
+  122  mkdir -p /home/$USER/app
+  123  cd /home/$USER/app
+  124  git clone https://github.com/LazerMax/SimpleApi.git
+  125  cd SimpleApi
+  126  dotnet publish -c Release -o /var/www/app
+  127  sudo dotnet publish -c Release -o /var/www/app
+  128  dotnet clean
+  129  sudo dotnet clean
+  130  dotnet nuget locals all --clear
+  131  dotnet restore
+  132  dotnet add package Microsoft.AspNetCore.OpenApi --version 9.0.5
+  133  sudo dotnet add package Microsoft.AspNetCore.OpenApi --version 9.0.5
+  134  sudo dotnet add package Microsoft.AspNetCore.OpenApi --version 9.0
+  135  ls -la /home/user/app/SimpleApi/
+  136  cd SimpleApi/
+  137  ls
+  138  dotnet --list-sdks
+  139  dotnet nuget locals all --clear
+  140  dotnet restore
+  141  sudo nano SimpleApi.csproj
+  142  dotnet restore
+  143  sudo nano SimpleApi.csproj
+  144  df -h
+  145  ip a
+  146  df -h
+  147  cd /home/user/app/SimpleApi/SimpleApi/
+  148  ls
+  149  sudo nano SimpleApi.csproj
+  150  dotnet nuget locals all --clear
+  151  ro
+  152  dotnet restore
+  153  sudo nano /etc/systemd/system/simpleapi.service
+  154  sudo systemctl enable simpleapi
+  155  sudo systemctl start simpleapi
+  156  sudo systemctl status simpleapi
+  157  sudo chown -R www-data:www-data /var/www/app
+  158  sudo mkdir -p /var/www/app
+  159  ls -la /var/www/
+  160  sudo cp -r ~/app/SimpleApi/SimpleApi/bin/Release/net9.0/ /var/www/app/
+  161  sudo nano SimpleApi.csproj
+  162  cd ~/app/SimpleApi
+  163  dotnet publish -c Release -o /var/www/app --runtime linux-x64
+  164  sudo mkdir -p /var/www/app
+  165  sudo chown -R $USER:$USER /var/www/app
+  166  sudo chmod -R 755 /var/www/app
+  167  dotnet clean
+  168  rm -rf bin/ obj/
+  169  dotnet publish -c Release -o /var/www/app --runtime linux-x64
+  170  sudo chown -R www-data:www-data /var/www/app
+  171  sudo chmod -R 755 /var/www/app
+  172  sudo systemctl daemon-reload
+  173  sudo systemctl restart simpleapi
+  174  sudo systemctl status simpleapi
+  175  sudo apt install -y nginx
+  176  sudo systemctl stop unattended-upgrades
+  177  sudo rm /var/lib/dpkg/lock-frontend
+  178  sudo rm /var/lib/dpkg/lock
+  179  sudo apt install -y nginx
+  180  sudo nano /etc/nginx/sites-available/simpleapi
+  181  sudo ln -s /etc/nginx/sites-available/simpleapi /etc/nginx/sites-enabled/
+  182  sudo nginx -t
+  183  sudo systemctl restart nginx
+  184  curl http://localhost:5000/api/healthcheck
+  185  ip s
+  186  ip a
+  187  curl http://localhost:5000/api/healthcheck
+  188  sudo nano /etc/nginx/sites-available/simpleapi
+  189  curl http://localhost/api/healthcheck
+  190  sudo systemctl status nginx
+  191  curl http://localhost/api/healthcheck
+  192  sudo nano /etc/nginx/sites-available/simpleapi
+  193  sudo ln -s /etc/nginx/sites-available/simpleapi /etc/nginx/sites-enabled/
+  194  sudo nginx -t
+  195  sudo systemctl restart nginx
+  196  sudo systemctl status nginx
+  197  curl http://localhost/api/healthcheck
+  198  sudo nginx -t
+  199  cat /etc/nginx/sites-enabled/simpleapi
+  200  sudo nano /etc/nginx/sites-available/simpleapi
+  201  sudo nginx -t
+  202  sudo systemctl restart nginx
+  203  curl http://localhost/api/healthcheck
+  204  curl http://localhost:5000/api/healthcheck
+  205  sudo nginx -T | grep server
+  206  ls -la /etc/nginx/sites-enabled/
+  207  sudo rm /etc/nginx/sites-enabled/default
+  208  sudo rm /etc/nginx/sites-enabled/simpleapi
+  209  sudo rm /etc/nginx/sites-enabled/default
+  210  sudo rm /etc/nginx/sites-enabled/simpleapi
+  211  sudo nano /etc/nginx/sites-available/api
+  212  sudo ln -s /etc/nginx/sites-available/api /etc/nginx/sites-enabled/
+  213  sudo nginx -t && sudo systemctl restart nginx
+  214  curl -v http://localhost/api/healthcheck
+  215  ip a
+  216  curl http://192.168.124.143/api/healthcheck
+  217  curl http://localhost:5000/api/healthcheck
+  218  curl http://localhost/api/healthcheck
+  219  ss -tulnp | grep -E '5000|80'
+  220  curl ifconfig.me
+  221  sudo nano /etc/netplan/00-installer-config.yaml
+  222  sudo netplan apply
+  223  sudo chmod 600 /etc/netplan/00-installer-config.yaml
+  224  sudo netplan apply
+  225  ip addr show
+  226  ip route
+  227  ip -6 route
+  228  sudo nano /etc/netplan/00-installer-config.yaml
+  229  sudo netplan try
+  230  hostname -I
+  231  sudo ufw status
+  232  sudo ufw allow 80/tcp
+  233  sudo ufw allow 5000/tcp
+  234  history | grep -E "dotnet|nginx|systemctl|ufw|git"
+  235  sudo nano /etc/nginx/sites-available/simpleapi
+  236  sudo netplan try
+  237  sudo nano /etc/netplan/00-installer-config.yaml
+  238  sudo wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+  239  sudo apt update
+  240  sudo wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+  241  df -h
+  242  ip a
+  243  history > /home/user/history.txt
+
+
+ 67  sudo nano /etc/netplan/50-cloud-init.yaml 
+# This file is generated from information provided by the datasource.  Changes
+# to it will not persist across an instance reboot.  To disable cloud-init's
+# network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+    ethernets:
+        enp0s3:
+            dhcp4: true
+    version: 2
+
+
+   sudo nano SimpleApi.csproj
+              
+  <Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>
+
+
+sudo nano /etc/systemd/system/simpleapi.service
+
+[Unit]
+Description=Simple API Service
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/app
+ExecStart=/usr/bin/dotnet /var/www/app/SimpleApi.dll --urls "http://*:5000"
+Restart=always
+User=www-data
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+sudo nano /etc/nginx/sites-available/simpleapi
+
+server {
+    listen 80;
+    server_name localhost;  # Или ваш IP/домен
+
+    location /api/ {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location / {
+        return 404;  # Базовый URL возвращает 404
+    }
+}
+
+sudo nano /etc/nginx/sites-available/api
+server {
+    listen 80;
+    server_name _;
+
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
+sudo nano /etc/netplan/00-installer-config.yaml                
+network:
+  ethernets:
+    eth0:
+      dhcp4: true
+      dhcp6: true  # Оставляем IPv6
+  version: 2
+
+
+
+        
+      
