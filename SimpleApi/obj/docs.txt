@@ -114,6 +114,8 @@ network:
       dhcp6: true  # Оставляем IPv6
   version: 2
 
+ sudo ufw allow 80/tcp
+ sudo ufw allow 5000/tcp
 
 Вывод команд:
 user@LMA:~/app/SimpleApi$ history | grep -E "dotnet|nginx|systemctl|ufw|git"
