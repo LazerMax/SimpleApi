@@ -129,3 +129,19 @@ sudo tail -f /var/log/nginx/error.log
 
 Вывод команд:
 user@LMA:~/app/SimpleApi$ history | grep -E "dotnet|nginx|systemctl|ufw|git"
+
+
+  GNU nano 7.2                                                 /etc/systemd/system/simpleapi.service
+[Unit]
+Description=Simple API Service
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/app
+ExecStart=/usr/bin/dotnet /var/www/app/SimpleApi.dll --urls "http://*:5000"
+Restart=always
+User=www-data
+
+[Install]
+WantedBy=multi-user.target
+
