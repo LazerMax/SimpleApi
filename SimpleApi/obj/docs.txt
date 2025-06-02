@@ -1,44 +1,57 @@
-Установите .NET 6:
-https://learn.microsoft.com/en-us/dotnet/core/install/linux-scripted-manual#scripted-install
-
+1. Установка .NET 9.0 SDK
+Способ 1: Установка через официальный репозиторий (рекомендуется)
 bash
-# Удалите старый .deb-файл (если был)
+# Удаляем старые конфигурации (если были)
 sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
 
-# Скачайте актуальный пакет
-curl -L -o packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
-
-# Установите репозиторий
+# Добавляем репозиторий Microsoft
+curl -L -o packages-microsoft-prod.deb "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
 sudo dpkg -i packages-microsoft-prod.deb
 sudo apt update
-sudo apt update
-sudo apt install -y dotnet-sdk-9.0
-Клонируйте проект:
 
-Установка .Net v.2
+# Устанавливаем .NET 9.0 SDK
+sudo apt install -y dotnet-sdk-9.0
+
+# Проверяем установку
+dotnet --info
+Способ 2: Установка через скрипт (если первый способ не работает)
+bash
+# Скачиваем скрипт установки
 curl -L https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
-Перед запуском этого скрипта убедитесь, что вы предоставили разрешение на запуск этого скрипта в качестве исполняемого файла:
-Копировать
-chmod +x ./dotnet-install.sh
-Скрипт по умолчанию устанавливает последнюю версию SDK с долгосрочной поддержкой (LTS) , то есть .NET 8. Чтобы установить последнюю версию, которая может не быть версией (LTS), используйте --version latestпараметр.
-Чтобы установить .NET Runtime вместо SDK, используйте --runtimeпараметр.
-./dotnet-install.sh --version latest --runtime aspnetcore
-Вы можете установить определенную основную версию с --channelпараметром, указывающим конкретную версию. Следующая команда устанавливает .NET 9.0 SDK.
-Копировать
+chmod +x dotnet-install.sh
+
+# Устанавливаем .NET 9.0 SDK
 ./dotnet-install.sh --channel 9.0
 
-bash
-mkdir -p /home/$USER/app
-cd /home/$USER/app
-git clone https://github.com/LazerMax/SimpleApi.git
-Публикация проекта:
+# Добавляем в PATH
+echo 'export DOTNET_ROOT=$HOME/.dotnet' | sudo tee -a /etc/profile.d/dotnet.sh
+echo 'export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools' | sudo tee -a /etc/profile.d/dotnet.sh
+source /etc/profile.d/dotnet.sh
 
+# Создаем симлинк для глобального доступа
+sudo ln -s $HOME/.dotnet/dotnet /usr/local/bin/dotnet
+
+# Проверяем
+dotnet --list-sdks
+2. Клонирование и публикация проекта
 bash
-cd SimpleApi/SimpleApi
+# Создаем папку и клонируем репозиторий
+mkdir -p ~/app && cd ~/app
+git clone https://github.com/LazerMax/SimpleApi.git
+cd SimpleApi
+
+# Публикуем проект
+sudo mkdir -p /var/www/app
+sudo chown -R $USER:$USER /var/www/app
 dotnet publish -c Release -o /var/www/app
-sudo chmod 755 /var/www/app
-4. Настройка systemd
-Создайте файл /etc/systemd/system/simpleapi.service:
+
+# Даем права www-data
+sudo chown -R www-data:www-data /var/www/app
+sudo chmod -R 755 /var/www/app
+3. Настройка systemd-сервиса
+bash
+sudo nano /etc/systemd/system/simpleapi.service
+Вставляем конфигурацию:
 
 [Unit]
 Description=Simple API Service
@@ -46,119 +59,72 @@ After=network.target
 
 [Service]
 WorkingDirectory=/var/www/app
-ExecStart=/usr/local/bin/dotnet /var/www/app/SimpleApi.dll --urls "http://*:5000"
+ExecStart=/usr/bin/dotnet /var/www/app/SimpleApi.dll --urls "http://*:5000"
 Restart=always
 RestartSec=10
 User=www-data
 Group=www-data
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=DOTNET_ROOT=/usr/share/dotnet
-Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
-Environment=DOTNET_ROOT=/home/user/.dotnet
+
 [Install]
 WantedBy=multi-user.target
-
+Применяем изменения:
 
 bash
+sudo systemctl daemon-reload
 sudo systemctl enable simpleapi
 sudo systemctl start simpleapi
-5. Настройка Nginx
-Установите Nginx:
-
+sudo systemctl status simpleapi  # Проверяем статус
+4. Настройка Nginx
 bash
+# Устанавливаем Nginx
 sudo apt install -y nginx
-Создайте конфиг /etc/nginx/sites-available/simpleapi:
 
-nginx
+# Удаляем дефолтный конфиг (если есть)
+sudo rm -f /etc/nginx/sites-enabled/default
+
+# Создаем новый конфиг
+sudo nano /etc/nginx/sites-available/api
+Вставляем конфигурацию:
+
 server {
     listen 80;
-    server_name localhost;  # Или ваш IP/домен
+    server_name _;
 
-    location /api/ {
+    location / {
         proxy_pass http://localhost:5000;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
-    }
-
-    location / {
-        return 404;  # Базовый URL возвращает 404
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }
-
-Активируйте и перезапустите:
-
-bash
-sudo ln -s /etc/nginx/sites-available/simpleapi /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl restart nginx
-6. Проверка работы
-На сервере:
+Активируем и перезапускаем Nginx:
 
 bash
+sudo ln -s /etc/nginx/sites-available/api /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl restart nginx
+5. Проверка работы
+bash
+# Локально
 curl http://localhost/api/healthcheck
-С Windows (в той же сети):
 
-powershell
-curl http://IP_СЕРВЕРА/api/healthcheck
-7. История команд (для отчёта)
+# Извне (замените SERVER_IP на IP сервера)
+curl http://SERVER_IP/api/healthcheck
+6. Дополнительные настройки (если нужно)
+Открытие портов в firewall (если используется UFW)
 bash
-history | grep -E "dotnet|nginx|systemctl|ufw|git"
+sudo ufw allow 80/tcp
+sudo ufw allow 5000/tcp
+sudo ufw enable
+Просмотр логов
+bash
+# Логи .NET приложения
+journalctl -u simpleapi -n 50 --no-pager
 
-sudo nano /etc/netplan/00-installer-config.yaml
-
-network:
-  ethernets:
-    eth0:
-      dhcp4: true
-      dhcp6: true  # Оставляем IPv6
-  version: 2
-
- sudo ufw allow 80/tcp
- sudo ufw allow 5000/tcp
+# Логи Nginx
+sudo tail -f /var/log/nginx/error.log
 
 Вывод команд:
 user@LMA:~/app/SimpleApi$ history | grep -E "dotnet|nginx|systemctl|ufw|git"
-  114  dotnet nuget locals all --clear
-  116  dotnet restore
-  118  sudo systemctl enable simpleapi
-  119  sudo systemctl start simpleapi
-  120  sudo systemctl status simpleapi
-  127  dotnet publish -c Release -o /var/www/app --runtime linux-x64
-  131  dotnet clean
-  133  dotnet publish -c Release -o /var/www/app --runtime linux-x64
-  136  sudo systemctl daemon-reload
-  137  sudo systemctl restart simpleapi
-  138  sudo systemctl status simpleapi
-  139  sudo apt install -y nginx
-  140  sudo systemctl stop unattended-upgrades
-  143  sudo apt install -y nginx
-  144  sudo nano /etc/nginx/sites-available/simpleapi
-  145  sudo ln -s /etc/nginx/sites-available/simpleapi /etc/nginx/sites-enabled/
-  146  sudo nginx -t
-  147  sudo systemctl restart nginx
-  152  sudo nano /etc/nginx/sites-available/simpleapi
-  154  sudo systemctl status nginx
-  156  sudo nano /etc/nginx/sites-available/simpleapi
-  157  sudo ln -s /etc/nginx/sites-available/simpleapi /etc/nginx/sites-enabled/
-  158  sudo nginx -t
-  159  sudo systemctl restart nginx
-  160  sudo systemctl status nginx
-  162  sudo nginx -t
-  163  cat /etc/nginx/sites-enabled/simpleapi
-  164  sudo nano /etc/nginx/sites-available/simpleapi
-  165  sudo nginx -t
-  166  sudo systemctl restart nginx
-  169  sudo nginx -T | grep server
-  170  ls -la /etc/nginx/sites-enabled/
-  171  sudo rm /etc/nginx/sites-enabled/default
-  172  sudo rm /etc/nginx/sites-enabled/simpleapi
-  173  sudo rm /etc/nginx/sites-enabled/default
-  174  sudo rm /etc/nginx/sites-enabled/simpleapi
-  175  sudo nano /etc/nginx/sites-available/api
-  176  sudo ln -s /etc/nginx/sites-available/api /etc/nginx/sites-enabled/
-  177  sudo nginx -t && sudo systemctl restart nginx
-  195  sudo ufw status
-  196  sudo ufw allow 80/tcp
-  197  sudo ufw allow 5000/tcp
-  198  history | grep -E "dotnet|nginx|systemctl|ufw|git"
