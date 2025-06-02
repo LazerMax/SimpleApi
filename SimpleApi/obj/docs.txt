@@ -40,20 +40,24 @@ sudo chmod 755 /var/www/app
 4. Настройка systemd
 Создайте файл /etc/systemd/system/simpleapi.service:
 
-ini
 [Unit]
 Description=Simple API Service
 After=network.target
 
 [Service]
 WorkingDirectory=/var/www/app
-ExecStart=/usr/bin/dotnet /var/www/app/SimpleApi.dll --urls "http://*:5000"
+ExecStart=/usr/local/bin/dotnet /var/www/app/SimpleApi.dll --urls "http://*:5000"
 Restart=always
+RestartSec=10
 User=www-data
-
+Group=www-data
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_ROOT=/usr/share/dotnet
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+Environment=DOTNET_ROOT=/home/user/.dotnet
 [Install]
 WantedBy=multi-user.target
-Запустите службу:
+
 
 bash
 sudo systemctl enable simpleapi
