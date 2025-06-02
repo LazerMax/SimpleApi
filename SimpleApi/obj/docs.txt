@@ -34,7 +34,7 @@ git clone https://github.com/LazerMax/SimpleApi.git
 Публикация проекта:
 
 bash
-cd SimpleApi
+cd SimpleApi/SimpleApi
 dotnet publish -c Release -o /var/www/app
 sudo chmod 755 /var/www/app
 4. Настройка systemd
