@@ -4,7 +4,7 @@ bash
 curl -L -o packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 sudo apt update
-sudo apt install -y dotnet-sdk-6.0
+sudo apt install -y dotnet-sdk-9.0
 Клонируйте проект:
 
 bash
