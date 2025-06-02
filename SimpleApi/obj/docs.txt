@@ -30,7 +30,7 @@ chmod +x ./dotnet-install.sh
 bash
 mkdir -p /home/$USER/app
 cd /home/$USER/app
-git clone https://github.com/ваш-логин/SimpleApi.git
+git clone https://github.com/LazerMax/SimpleApi.git
 Публикация проекта:
 
 bash
