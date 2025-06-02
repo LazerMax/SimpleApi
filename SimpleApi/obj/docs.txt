@@ -81,6 +81,16 @@ curl http://IP_СЕРВЕРА/api/healthcheck
 bash
 history | grep -E "dotnet|nginx|systemctl|ufw|git"
 
+sudo nano /etc/netplan/00-installer-config.yaml
+
+network:
+  ethernets:
+    eth0:
+      dhcp4: true
+      dhcp6: true  # Оставляем IPv6
+  version: 2
+
+
 Вывод команд:
 user@LMA:~/app/SimpleApi$ history | grep -E "dotnet|nginx|systemctl|ufw|git"
   114  dotnet nuget locals all --clear
