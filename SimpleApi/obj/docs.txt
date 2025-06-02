@@ -5,7 +5,7 @@ bash
 sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
 
 # Скачайте актуальный пакет
-wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
+curl -L -o packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
 
 # Установите репозиторий
 sudo dpkg -i packages-microsoft-prod.deb
