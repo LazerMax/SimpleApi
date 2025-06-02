@@ -21,13 +21,9 @@ curl -L https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
 Копировать
 chmod +x ./dotnet-install.sh
 Скрипт по умолчанию устанавливает последнюю версию SDK с долгосрочной поддержкой (LTS) , то есть .NET 8. Чтобы установить последнюю версию, которая может не быть версией (LTS), используйте --version latestпараметр.
-Копировать
-./dotnet-install.sh --version latest
 Чтобы установить .NET Runtime вместо SDK, используйте --runtimeпараметр.
 ./dotnet-install.sh --version latest --runtime aspnetcore
 Вы можете установить определенную основную версию с --channelпараметром, указывающим конкретную версию. Следующая команда устанавливает .NET 9.0 SDK.
-
-
 Копировать
 ./dotnet-install.sh --channel 9.0
 
